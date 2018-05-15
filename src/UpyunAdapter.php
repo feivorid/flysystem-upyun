@@ -58,7 +58,11 @@ class UpyunAdapter extends AbstractAdapter
      */
     public function write($path, $contents, Config $config)
     {
-        return $this->client()->write($path, $contents);
+        try {
+            $this->client()->write($path, $contents);
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
     /**
@@ -68,7 +72,12 @@ class UpyunAdapter extends AbstractAdapter
      */
     public function writeStream($path, $resource, Config $config)
     {
-        return $this->client()->write($path, $resource);
+        try {
+            $this->client()->write($path, $resource);
+            return $path;
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
     /**
